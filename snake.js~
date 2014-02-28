@@ -9,39 +9,23 @@ var drawSnake = function (snakeToDraw) {
 // function to move in 4 directions.  a series of 'if else' statements to determine what direction to move
 var moveSegment = function(segment) {
 
-	if (segment.direction == "down") {
-		return { top: segment.top + 1, left: segment.left }
-	} else if (segment.direction == "up") {
-		return { top: segment.top - 1, left: segment.left }
-	} else if (segment.direction == "right") {
-		return { top: segment.top, left: segment.left + 1 }
-	} else if (segment.direction == "left") {
-		return { top: segment.top, left: segment.left - 1}
-	}
-
-/*
 	// moves the snake by adjusting the margins 'left' or 'top'
 	switch(segment.direction) {
 		case "down":
-			//return { top: segment.top + 1, left: segment.left }
 			segment.top++;
 			break;
 		case "up":
-			//return { top: segment.top - 1, left: segment.left }
 			segment.top--;
 			break;
 		case "right":
-			//return { top: segment.top, left: segment.left + 1 }
 			segment.left++;
 			break;
 		case "left":
-			//return { top: segment.top, left: segment.left - 1 }
 			segment.left--;
 			break;
 		default:
 	}
-*/
-
+	// return new segment coordinates
 	return segment;
 
 }
@@ -55,41 +39,29 @@ var moveSnake = function (snake) {
 	return newSnake;	// returns snake with new coordinates
 }
 
-//	create an array variable snake with starting coordinates and direction of movement
-var snake = [{ top: 0, left: 0, direction: "down"}];	
-
 // function to move the snake by updating its coordinates and redrawing the snake
 var advanceGame = function() {
 	snake = moveSnake(snake);
 	drawSnake(snake);	
 }
 
+// function changes direction based on the key press entered
+var changeDirection = function(direction) {
+	snake[0].direction = direction;
+}
+
+//	create an array variable snake with starting coordinates and direction of movement
+var snake = [{ top: 0, left: 0, direction: "down"}];	
+
 //	executes the function advanceGame every 1 second. 
 CHUNK.executeNTimesPerSecond(advanceGame, 1);
 
+// user inputs the direction snake will go
+CHUNK.onArrowKey(changeDirection);
+
 
 /* Q & A's
-Use a switch statement instead of 'if else'
-	
-	switch(segment.direction) {
-		case "down":
-			return { top: segment.top + 1, left: segment.left }
-			break;
-		case "up":
-			return { top: segment.top - 1, left: segment.left }
-			break;
-		case "right":
-			return { top: segment.top, left: segment.left + 1 }
-			break;
-		case "left":
-			return { top: segment.top, left: segment.left - 1 }
-			break;
-		default:
-	}
 
-Change the starting snake's segments to ensure all the directions work
-
-var snake = [{ top: 10, left: 10, direction: "left"}];
 */
 
 
