@@ -1,0 +1,30 @@
+<html>
+<head>
+	<title>Snake Tutorial - RailsBridge Javascript Pilot @ Galvanize</title>
+	<style>
+	  canvas {
+		 margin-left: auto;
+		 margin-right: auto;
+		 display: block;
+		 background-color: black;
+	  }
+	</style>
+	<script type="text/javascript" src="chunk.js"></script>
+	<script type="text/javascript" src="snake.js"></script>
+</head>
+<body>
+	<canvas id="chunk-game">
+	</canvas>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
