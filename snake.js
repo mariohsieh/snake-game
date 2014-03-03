@@ -1,3 +1,4 @@
+// lesson 7
 
 //	define function that draws the snake
 var drawSnake = function (snakeToDraw) {
@@ -42,7 +43,12 @@ var moveSnake = function (snake) {
 // function to move the snake by updating its coordinates and redrawing the snake
 var advanceGame = function() {
 	snake = moveSnake(snake);
-	drawSnake(snake);	
+	if (CHUNK.detectCollisionBetween(snake, CHUNK.gameBoundaries())) {
+		CHUNK.endGame();
+		CHUNK.flashMessage("Whoops! you hit a wall!");
+	} else {
+		drawSnake(snake);	
+	}
 }
 
 // function changes direction based on the key press entered
