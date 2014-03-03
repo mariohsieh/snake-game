@@ -1,4 +1,4 @@
-// lesson 12
+// lesson 13
 
 //	define function that draws the snake
 var draw = function (snakeToDraw, apple) {
@@ -68,17 +68,26 @@ var moveSnake = function (snake) {
 	});
 }
 
+var ate = function (snake, otherThing) {
+	var head = snake[0];
+	return CHUNK.detectCollisionBetween([head], otherThing);
+}
+
 // function to move the snake by updating its coordinates and redrawing the snake
 var advanceGame = function() {
-	snake = moveSnake(snake);
+	var newSnake = moveSnake(snake);
 
-	if (CHUNK.detectCollisionBetween([apple], snake)) {
+	if (ate(newSnake, snake)) {	// if snake eats itself
+		CHUNK.endGame();
+		CHUNK.flashMessage("Woops!  You ate yourself!");
+	} else if (ate(newSnake, [apple])) {	// if snake eats apple
 		snake = growSnake(snake);
 		apple = CHUNK.randomLocation();
-	} else if (CHUNK.detectCollisionBetween(snake, CHUNK.gameBoundaries())) {	// if snake hits the wall
+	} else if (ate(newSnake, CHUNK.gameBoundaries())) {	// if snake hits the wall
 		CHUNK.endGame();
 		CHUNK.flashMessage("Whoops! you hit a wall!");
 	} else {
+		snake = newSnake;
 		draw(snake, apple);	
 	}
 }
@@ -89,11 +98,11 @@ var changeDirection = function(direction) {
 }
 
 //	create an array object snake and object apple with starting coordinates and direction of movement
-var apple = { top: 8, left: 10};
+var apple = CHUNK.randomLocation();
 var snake = [{ top: 1, left: 0, direction: "down"}, { top: 0, left: 0, direction: "down"}];	
 
 //	executes the function advanceGame every 1 second. 
-CHUNK.executeNTimesPerSecond(advanceGame, 1);
+CHUNK.executeNTimesPerSecond(advanceGame, 3);
 
 // user inputs the direction snake will go
 CHUNK.onArrowKey(changeDirection);
