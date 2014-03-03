@@ -1,9 +1,10 @@
 // lesson 10
 
 //	define function that draws the snake
-var drawSnake = function (snakeToDraw) {
+var draw = function (snakeToDraw, apple) {
 	var drawableSnake = { color: "green", pixels: snakeToDraw };	// declare snake color & pixels
-	var drawableObjects = [drawableSnake];	// array variable for all objects to be drawn
+	var drawableApple = { color: "red", pixels: [apple] };
+	var drawableObjects = [drawableSnake, drawableApple];	// array variable for all objects to be drawn
 	CHUNK.draw(drawableObjects);	// call draw function
 }
 
@@ -46,11 +47,7 @@ var moveSnake = function (snake) {
 }
 
 var segmentFurtherForwardThan = function (index, snake) {
-	if (snake[index - 1] === undefined) {
-		return snake[index];
-	} else {
-		return snake[index - 1];
-	}
+	return snake[index - 1] || snake[index];
 }
 
 // function to move snake 1 pixel in the direction determined by moveSegment function
@@ -71,7 +68,7 @@ var advanceGame = function() {
 		CHUNK.endGame();
 		CHUNK.flashMessage("Whoops! you hit a wall!");
 	} else {
-		drawSnake(snake);	
+		draw(snake, apple);	
 	}
 }
 
@@ -80,8 +77,9 @@ var changeDirection = function(direction) {
 	snake[0].direction = direction;
 }
 
-//	create an array variable snake with starting coordinates and direction of movement
-var snake = [{ top: 0, left: 0, direction: "down"}, { top: 0, left: 0, direction: "down"}];	
+//	create an array object snake and object apple with starting coordinates and direction of movement
+var apple = { top: 8, left: 10};
+var snake = [{ top: 1, left: 0, direction: "down"}, { top: 0, left: 0, direction: "down"}];	
 
 //	executes the function advanceGame every 1 second. 
 CHUNK.executeNTimesPerSecond(advanceGame, 1);
