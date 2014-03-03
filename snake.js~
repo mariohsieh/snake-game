@@ -4,7 +4,7 @@
 var draw = function (snakeToDraw, apple) {
 	var drawableSnake = { color: "green", pixels: snakeToDraw };	// declare snake color & pixels
 	var drawableApple = { color: "red", pixels: [apple] };
-	var drawableObjects = [drawableSnake];	// array variable for all objects to be drawn
+	var drawableObjects = [drawableSnake, drawableApple];	// array variable for all objects to be drawn
 	CHUNK.draw(drawableObjects);	// call draw function
 }
 
@@ -50,6 +50,13 @@ var segmentFurtherForwardThan = function (index, snake) {
 	return snake[index - 1] || snake[index];
 }
 
+var growSnake = function (snake) {
+	var indexOfLastSegment = snake.length - 1;
+	var lastSegment = snake[snake.length - 1];
+	snake.push({ top: lastSegment.top, left: lastSegment.left });
+	return snake;
+}
+
 // function to move snake 1 pixel in the direction determined by moveSegment function
 var moveSnake = function (snake) {
 	return snake.map(function(oldSegment, segmentIndex) {
@@ -64,7 +71,11 @@ var moveSnake = function (snake) {
 // function to move the snake by updating its coordinates and redrawing the snake
 var advanceGame = function() {
 	snake = moveSnake(snake);
-	if (CHUNK.detectCollisionBetween(snake, CHUNK.gameBoundaries())) {	// if snake hits the wall
+
+	if (CHUNK.detectCollisionBetween([apple], snake)) {
+		snake = growSnake(snake);
+		apple = CHUNK.randomLocation();
+	} else if (CHUNK.detectCollisionBetween(snake, CHUNK.gameBoundaries())) {	// if snake hits the wall
 		CHUNK.endGame();
 		CHUNK.flashMessage("Whoops! you hit a wall!");
 	} else {
