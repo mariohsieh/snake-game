@@ -1,4 +1,4 @@
-// lesson 9
+// lesson 10
 
 //	define function that draws the snake
 var drawSnake = function (snakeToDraw) {
@@ -45,13 +45,23 @@ var moveSnake = function (snake) {
 	return newSnake;
 }
 
+var segmentFurtherForwardThan = function (index, snake) {
+	if (snake[index - 1] === undefined) {
+		return snake[index];
+	} else {
+		return snake[index - 1];
+	}
+}
+
 // function to move snake 1 pixel in the direction determined by moveSegment function
 var moveSnake = function (snake) {
-	var oldSegment = snake[0];
-	var newSegment = moveSegment(oldSegment);	//	get new coordinates from moveSegment function
-	newSegment.direction = oldSegment.direction;	// keeps the same direction
-	var newSnake = [newSegment];	// puts new coordinates into newSnake array variable
-	return newSnake;	// returns snake with new coordinates
+	return snake.map(function(oldSegment, segmentIndex) {
+		//var oldSegment = snake[0];
+		var newSegment = moveSegment(oldSegment);	//	get new coordinates from moveSegment function
+		newSegment.direction = segmentFurtherForwardThan(segmentIndex, snake).direction;	// keeps the same direction
+		//var newSnake = [newSegment];	// puts new coordinates into newSnake array variable
+		return newSnake;	// returns snake with new coordinates
+	});
 }
 
 // function to move the snake by updating its coordinates and redrawing the snake
