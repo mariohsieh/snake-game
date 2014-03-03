@@ -11,12 +11,14 @@
 		 background-color: black;
 	  }
 	</style>
-	<script type="text/javascript" src="chunk.js"></script>
+	
 </head>
 <body>
 	<canvas id="chunk-game" width="800" height="600">
-		<script type="text/javascript" src="snake.js"></script>
+
 	</canvas>
+	<script type="text/javascript" src="chunk.js"></script>
+	<script type="text/javascript" src="snake.js"></script>
 </body>
 </html>
 

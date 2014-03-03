@@ -1,4 +1,4 @@
-// lesson 7
+// lesson 9
 
 //	define function that draws the snake
 var drawSnake = function (snakeToDraw) {
@@ -13,22 +13,36 @@ var moveSegment = function(segment) {
 	// moves the snake by adjusting the margins 'left' or 'top'
 	switch(segment.direction) {
 		case "down":
-			segment.top++;
-			break;
+			//segment.top++;
+			//break;
+			return { top: segment.top + 1, left: segment.left };
 		case "up":
-			segment.top--;
-			break;
+			//segment.top--;
+			//break;
+			return { top: segment.top - 1, left: segment.left };
 		case "right":
-			segment.left++;
-			break;
+			//segment.left++;
+			//break;
+			return { top: segment.top, left: segment.left + 1};
 		case "left":
-			segment.left--;
-			break;
+			//segment.left--;
+			//break;
+			return { top: segment.top, left: segment.left - 1};
 		default:
+			// return new segment coordinates
+			return segment;
 	}
-	// return new segment coordinates
-	return segment;
+}
 
+var moveSnake = function (snake) {
+	var newSnake = [];	// create a new snake array variable
+	snake.forEach(function(oldSegment) {	// loop through snake array 
+		var newSegment = moveSegment(oldSegment);
+		newSegment.direction = oldSegment.direction;	// set direction for new segment same as old segment
+		newSnake.push(newSegment);	//	add that segment to newSnake array;
+	});
+
+	return newSnake;
 }
 
 // function to move snake 1 pixel in the direction determined by moveSegment function
@@ -43,7 +57,7 @@ var moveSnake = function (snake) {
 // function to move the snake by updating its coordinates and redrawing the snake
 var advanceGame = function() {
 	snake = moveSnake(snake);
-	if (CHUNK.detectCollisionBetween(snake, CHUNK.gameBoundaries())) {
+	if (CHUNK.detectCollisionBetween(snake, CHUNK.gameBoundaries())) {	// if snake hits the wall
 		CHUNK.endGame();
 		CHUNK.flashMessage("Whoops! you hit a wall!");
 	} else {
@@ -57,7 +71,7 @@ var changeDirection = function(direction) {
 }
 
 //	create an array variable snake with starting coordinates and direction of movement
-var snake = [{ top: 0, left: 0, direction: "down"}];	
+var snake = [{ top: 0, left: 0, direction: "down"}, { top: 0, left: 0, direction: "down"}];	
 
 //	executes the function advanceGame every 1 second. 
 CHUNK.executeNTimesPerSecond(advanceGame, 1);
